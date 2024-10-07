@@ -1,0 +1,228 @@
+The following is 3 sections of junked code from alternative approaches used. Retaining in case the approaches used in the main document were misguided and these ones would be a better foundation.
+
+
+
+
+
+
+
+
+
+
+DISREGARD, better methods employed above
+
+#so i've probably completely misunderstood the directions
+#i'm just gonna use plots to figure out acceptable dec for the 14 degree overlap between the two slot RA ranges
+#344 degrees to 358 degrees
+#referencing the total 3 hour window
+#this'll make a very conservatively narrow window of RA/Dec but
+#i'm too tired to care
+
+#
+#LOWER END
+#
+
+#initialize
+#we want the Dec mods to be as big as possible to maximize the range
+RAval = 344
+Dec_mod_down = 17
+Dec_mod_up = 24
+print(RAval)
+fig, ax = plt.subplots()
+
+#blue line - minimum Dec
+target_coord_low = SkyCoord(ra=RAval*u.deg, dec= (_LATITUDE_-Dec_mod_down)*u.deg)
+target_source_low = FixedTarget(coord=target_coord_low, name="Target low")
+
+#red line - maximum Dec
+target_coord_high = SkyCoord(ra=RAval*u.deg, dec= (_LATITUDE_+Dec_mod_up)*u.deg)
+target_source_high = FixedTarget(coord=target_coord_high, name="Target high")
+
+plot_altitude(target_source_low,Breyo_observer, observation_time)
+plot_altitude(target_source_high,Breyo_observer, observation_time)
+
+xmin, xmax = ax.get_xlim()
+x_line = np.linspace(xmin,xmax,100)
+y = [60]*100
+ax.plot(x_line, y, ls = '--')
+ax.fill_between(x_line, 60, 90, alpha = 0.1, color= 'orange' )
+
+#setting up Y lines. graph shows 24 hours starting at 2100.
+#want to look at roughly 00:00, 01:30, and 03:00
+#these are respectively 3/24, 4.5/24, and 6/24 across the chart
+#nope! as discussed in part 4, the actual range is 01:30-03:00-04:30 UTC
+#01:30 is 4.5 hours after 2100
+#so using values 4.5/24, 6/24, and 7.5/24
+#this explains centering issues i was having
+xrange = xmax-xmin
+plt.axvline(x=xmin+(4.5/24*xrange),color='grey',ls='--')
+plt.axvline(x=xmin+(6/24*xrange),color='grey',ls='--')
+plt.axvline(x=xmin+(7.5/24*xrange),color='grey',ls='--')
+
+ax.set_title('Plot 1.1: Lower limits')
+plt.show()
+print('Plot 1.1: RA ',round(RAval,4),'; minimum Dec ',round(_LATITUDE_-Dec_mod_down,4),'; maximum Dec ',round(_LATITUDE_+Dec_mod_up,4))
+
+
+#
+#UPPER END
+#
+
+#initialize
+#we want the Dec mods to be as big as possible to maximize the range
+RAval = 358
+Dec_mod_down = 11
+Dec_mod_up = 21
+print(RAval)
+fig, ax = plt.subplots()
+
+#blue line - minimum Dec
+target_coord_low = SkyCoord(ra=RAval*u.deg, dec= (_LATITUDE_-Dec_mod_down)*u.deg)
+target_source_low = FixedTarget(coord=target_coord_low, name="Target low")
+
+#red line - maximum Dec
+target_coord_high = SkyCoord(ra=RAval*u.deg, dec= (_LATITUDE_+Dec_mod_up)*u.deg)
+target_source_high = FixedTarget(coord=target_coord_high, name="Target high")
+
+plot_altitude(target_source_low,Breyo_observer, observation_time)
+plot_altitude(target_source_high,Breyo_observer, observation_time)
+
+xmin, xmax = ax.get_xlim()
+x_line = np.linspace(xmin,xmax,100)
+y = [60]*100
+ax.plot(x_line, y, ls = '--')
+ax.fill_between(x_line, 60, 90, alpha = 0.1, color= 'orange' )
+
+#setting up Y lines. graph shows 24 hours starting at 2100.
+#want to look at roughly 00:00, 01:30, and 03:00
+#these are respectively 3/24, 4.5/24, and 6/24 across the chart
+#nope! as discussed in part 4, the actual range is 01:30-03:00-04:30 UTC
+#01:30 is 4.5 hours after 2100
+#so using values 4.5/24, 6/24, and 7.5/24
+#this explains centering issues i was having
+xrange = xmax-xmin
+plt.axvline(x=xmin+(4.5/24*xrange),color='grey',ls='--')
+plt.axvline(x=xmin+(6/24*xrange),color='grey',ls='--')
+plt.axvline(x=xmin+(7.5/24*xrange),color='grey',ls='--')
+
+ax.set_title('Plot 2.1: Upper limits')
+plt.show()
+print('Plot 2.1: RA ',round(RAval,4),'; minimum Dec ',round(_LATITUDE_-Dec_mod_down,4),'; maximum Dec ',round(_LATITUDE_+Dec_mod_up,4))
+
+
+
+
+
+
+
+
+
+DISREGARD
+
+Basically, the acceptable range is
+
+RA 344 to 358 degrees (or 22:56:03 to 23:52:00)
+
+Dec 31.7 to 63.72 (31 degrees and 42 minutes, 63 degrees and 43 minutes)
+
+Anything in this range will be easily visible throughout the whole observation time
+
+
+
+
+
+
+
+
+
+
+DISREGARD, better methods employed above
+
+#so uh the above is way too few clusters. gonna expand the range and just. idk. see what we can get.
+#Slot 1 RA range:  321.41666666666663  to  358.91666666666663  degrees. Range size:  37.5  degrees.
+#Slot 2 RA range:  343.97499999999997  to  21.475  degrees. Range size:  37.50000000000006  degrees.
+
+#initialize
+#we want the Dec mods to be as big as possible to maximize the range
+RAval = 338
+Dec_mod_down = 12
+Dec_mod_up = 22
+print(RAval)
+fig, ax = plt.subplots()
+
+#blue line - minimum Dec
+target_coord_low = SkyCoord(ra=RAval*u.deg, dec= (_LATITUDE_-Dec_mod_down)*u.deg)
+target_source_low = FixedTarget(coord=target_coord_low, name="Target low")
+
+#red line - maximum Dec
+target_coord_high = SkyCoord(ra=RAval*u.deg, dec= (_LATITUDE_+Dec_mod_up)*u.deg)
+target_source_high = FixedTarget(coord=target_coord_high, name="Target high")
+
+plot_altitude(target_source_low,Breyo_observer, observation_time)
+plot_altitude(target_source_high,Breyo_observer, observation_time)
+
+xmin, xmax = ax.get_xlim()
+x_line = np.linspace(xmin,xmax,100)
+y = [60]*100
+ax.plot(x_line, y, ls = '--')
+ax.fill_between(x_line, 60, 90, alpha = 0.1, color= 'orange' )
+
+#setting up Y lines. graph shows 24 hours starting at 2100.
+#want to look at roughly 00:00, 01:30, and 03:00
+#these are respectively 3/24, 4.5/24, and 6/24 across the chart
+#nope! as discussed in part 4, the actual range is 01:30-03:00-04:30 UTC
+#01:30 is 4.5 hours after 2100
+#so using values 4.5/24, 6/24, and 7.5/24
+#this explains centering issues i was having
+xrange = xmax-xmin
+plt.axvline(x=xmin+(4.5/24*xrange),color='grey',ls='--')
+plt.axvline(x=xmin+(6/24*xrange),color='grey',ls='--')
+plt.axvline(x=xmin+(7.5/24*xrange),color='grey',ls='--')
+
+ax.set_title('Plot 3.1: Revised lower limits')
+plt.show()
+print('Plot 3.1: RA ',round(RAval,4),'; minimum Dec ',round(_LATITUDE_-Dec_mod_down,4),'; maximum Dec ',round(_LATITUDE_+Dec_mod_up,4))
+
+
+
+#initialize
+#we want the Dec mods to be as big as possible to maximize the range
+RAval = 359.9
+Dec_mod_down = 8
+Dec_mod_up = 21
+print(RAval)
+fig, ax = plt.subplots()
+
+#blue line - minimum Dec
+target_coord_low = SkyCoord(ra=RAval*u.deg, dec= (_LATITUDE_-Dec_mod_down)*u.deg)
+target_source_low = FixedTarget(coord=target_coord_low, name="Target low")
+
+#red line - maximum Dec
+target_coord_high = SkyCoord(ra=RAval*u.deg, dec= (_LATITUDE_+Dec_mod_up)*u.deg)
+target_source_high = FixedTarget(coord=target_coord_high, name="Target high")
+
+plot_altitude(target_source_low,Breyo_observer, observation_time)
+plot_altitude(target_source_high,Breyo_observer, observation_time)
+
+xmin, xmax = ax.get_xlim()
+x_line = np.linspace(xmin,xmax,100)
+y = [60]*100
+ax.plot(x_line, y, ls = '--')
+ax.fill_between(x_line, 60, 90, alpha = 0.1, color= 'orange' )
+
+#setting up Y lines. graph shows 24 hours starting at 2100.
+#want to look at roughly 00:00, 01:30, and 03:00
+#these are respectively 3/24, 4.5/24, and 6/24 across the chart
+#nope! as discussed in part 4, the actual range is 01:30-03:00-04:30 UTC
+#01:30 is 4.5 hours after 2100
+#so using values 4.5/24, 6/24, and 7.5/24
+#this explains centering issues i was having
+xrange = xmax-xmin
+plt.axvline(x=xmin+(4.5/24*xrange),color='grey',ls='--')
+plt.axvline(x=xmin+(6/24*xrange),color='grey',ls='--')
+plt.axvline(x=xmin+(7.5/24*xrange),color='grey',ls='--')
+
+ax.set_title('Plot 4.1: Revised upper limits')
+plt.show()
+print('Plot 4.1: RA ',round(RAval,4),'; minimum Dec ',round(_LATITUDE_-Dec_mod_down,4),'; maximum Dec ',round(_LATITUDE_+Dec_mod_up,4))
+
